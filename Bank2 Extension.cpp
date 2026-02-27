@@ -36,8 +36,8 @@ struct stClient
     string Phone;
     double AccountBalance=0;
     bool MarkForDelete = false;
-
 };
+
 struct stUser
 {
     string Username;
@@ -56,7 +56,6 @@ void ShowMainMenueScreen();
 bool CheckAccessPermission(enMainMenuePermissions Permission);
 void Login();
 
-
 vector<string> SplitString(string S1, string delim)
 {
     vector<string>vString;
@@ -73,13 +72,11 @@ vector<string> SplitString(string S1, string delim)
             vString.push_back(sword);
         }
         S1.erase(0, pos + delim.length());//erase() until position and move to next word
-
     }
     if (S1 != "")
     {
         vString.push_back(S1);//it print last word of the string
     }
-
     return vString;
 }
 
@@ -100,7 +97,6 @@ stClient ConvertLineToRecord(string Line, string sperator = "#//#")
     Client.AccountBalance = stod(vString[4]);//cast string to double
 
     return Client;
-
 }
 
 vector<stClient> LoadClientsDataFromFile(string FileName)
@@ -119,11 +115,8 @@ vector<stClient> LoadClientsDataFromFile(string FileName)
             Client = ConvertLineToRecord(Line);
             vClient.push_back(Client);
         }
-
         MyFile.close();
-
     }
-
     return vClient;
 }
 
@@ -142,7 +135,6 @@ stUser ConvertUserLineToRecord(string Line, string sperator = "#//#")
     User.Permissions = stoi(vUserData[2]);
 
     return User;
-
 }
 
 vector<stUser> LoadUserDataFromFile(string FileName)
@@ -161,11 +153,8 @@ vector<stUser> LoadUserDataFromFile(string FileName)
             User = ConvertUserLineToRecord(Line);
             vUser.push_back(User);
         }
-
         MyFile.close();
-
     }
-
     return vUser;
 }
 
@@ -175,7 +164,6 @@ void ShowAccessDeniedMessage()
     cout << "Access Denied, \nYou dont Have Permission To Do this,\nPlease Contact your Admin.";
     cout << "\n---------------------------------------\n";
     GoBackToMainMenue();
-
 }
 
 void PrintClientRecord(stClient Client)
@@ -189,7 +177,6 @@ void PrintClientRecord(stClient Client)
 
 void ShowAllClientScreen()
 {
-   
     vector<stClient>vClients = LoadClientsDataFromFile(ClientsFileName);
 
     cout << "\n\t\t\t\t\tClient List (" << vClients.size() << ") Client (s).";
@@ -219,8 +206,6 @@ void ShowAllClientScreen()
     cout << "--------------------------------------------------------------\n";
 
     cout << "\n";
-
-
 }
 
 string ConvertRecordToLine(stClient Client, string sperator = "#//#")
@@ -234,7 +219,6 @@ string ConvertRecordToLine(stClient Client, string sperator = "#//#")
     stClientRecord += to_string(Client.AccountBalance);
 
     return stClientRecord;
-
 }
 
 string ConvertUserRecordToLine(stUser User, string sperator = "#//#")
@@ -246,7 +230,6 @@ string ConvertUserRecordToLine(stUser User, string sperator = "#//#")
     stUserRecord += to_string(User.Permissions);
 
     return stUserRecord;
-
 }
 
 void AddClientToFile(string FileName, string DataLine)
@@ -256,12 +239,9 @@ void AddClientToFile(string FileName, string DataLine)
 
     if (MyFile.is_open())
     {
-
         MyFile << DataLine << endl;
-
         MyFile.close();
     }
-
 }
 
 bool ClientExistsByAccountNumber(string AccountNumber, string FileName)
@@ -285,17 +265,13 @@ bool ClientExistsByAccountNumber(string AccountNumber, string FileName)
             }
             vClient.push_back(Client);
         }
-
         MyFile.close();
-
     }
-
     return false;
 }
 
 bool UserExistsByUsername(string Username, string FileName)
 {
- 
     fstream MyFile;
     MyFile.open(FileName, ios::in);
 
@@ -312,13 +288,9 @@ bool UserExistsByUsername(string Username, string FileName)
                 MyFile.close();
                 return true;
             }
-           
         }
-
         MyFile.close();
-
     }
-
     return false;
 }
 
@@ -360,20 +332,16 @@ stClient ReadClientData()
     cout << "--------------------------------------------------------------\n";
 
     return Client;
-
 }
 
 void AddNewClient()
 {
-
     cout << "================================================================================\n";
     cout << "\n\t\t\tShow Add New Client Screen\n\n";
     cout << "================================================================================\n";
 
     stClient Client = ReadClientData();
     AddClientToFile(ClientsFileName, ConvertRecordToLine(Client));
-
-
 }
 
 void ShowAddNewClientsScreen(vector<stClient>& vClient)
@@ -390,8 +358,6 @@ void ShowAddNewClientsScreen(vector<stClient>& vClient)
         cout << "\nClient Added Successfully !\nDo you want to add more clients? Y/N ? ";
         cin >> AddMore;
     } while (toupper(AddMore) == 'Y');
-
-
 }
 
 void PrintClientCard(stClient& Client)
@@ -410,12 +376,10 @@ void PrintClientCard(stClient& Client)
     cout << "\n--------------------------------------------------------------\n";
     printf("# Account Balance: %.f", Client.AccountBalance);
     cout << "\n--------------------------------------------------------------\n";
-
 }
 
 bool FindClientDataByAccountNumber(string AccountNumber, vector<stClient>& vClient, stClient& Client)
 {
-
     for (const stClient& C : vClient)
     {
         if (C.AccountNumber == AccountNumber)
@@ -429,7 +393,6 @@ bool FindClientDataByAccountNumber(string AccountNumber, vector<stClient>& vClie
 
 bool FindUserDataByUsername(string Username, vector<stUser>& vUsers, stUser& User)
 {
-
     for (const stUser& U : vUsers)
     {
         if (U.Username == Username)
@@ -540,7 +503,6 @@ void ShowDeleteClientScreen(vector<stClient>& vClient)
 
     string AccountNumber = ReadClientAccountNumber();
     DeleteClientByAccountNumber(AccountNumber, vClient);
-
 }
 
 void DeleteClients(vector<stClient>& vClient)
@@ -554,19 +516,16 @@ void DeleteClients(vector<stClient>& vClient)
         cout << "\n\nDo you want to delete another client? Y/N ? ";
         cin >> DeleteMore;
     } while (toupper(DeleteMore) == 'Y');
-
 }
 
 bool FindClientByAccountNumber(string AccountNumber, vector<stClient>& vClient, stClient& Client)
 {
-
     if (FindClientDataByAccountNumber(AccountNumber, vClient, Client))
     {
         return true;
     }
     else
         return false;
-
 }
 
 void ShowFindClientScreen(vector<stClient>& vClient)
@@ -583,12 +542,10 @@ void ShowFindClientScreen(vector<stClient>& vClient)
         PrintClientCard(Client);
     else
         cout << "\nClient with Account Number (" << AccountNumber << ") is Not Found ! ";
-
 }
 
 void FindClients(vector<stClient>& vClient)
 {
-
     char FindMore = 'Y';
 
     do
@@ -599,7 +556,6 @@ void FindClients(vector<stClient>& vClient)
         cout << "\n\nDo you want to find another client? Y/N ? ";
         cin >> FindMore;
     } while (toupper(FindMore) == 'Y');
-
 }
 
 stClient ChangeClientRecord(string AccountNumber)
@@ -631,7 +587,6 @@ stClient ChangeClientRecord(string AccountNumber)
     cout << "--------------------------------------------------------------\n";
 
     return Client;
-
 }
 
 int ReadPermissionToSet()
@@ -693,9 +648,7 @@ int ReadPermissionToSet()
     {
         Permission += enMainMenuePermissions::pManageUsers;
     }
-
     return Permission;
-
 }
 
 stUser ChangeUserRecord(string Username)
@@ -710,7 +663,6 @@ stUser ChangeUserRecord(string Username)
     User.Permissions = ReadPermissionToSet();
 
     return User;
-
 }
 
 bool MarkClientForDeleteByUsername(string Username, vector<stUser>& vUser)
@@ -772,15 +724,12 @@ bool UpdateClientByAccountNumber(string AccountNumber, vector<stClient>& vClient
                     break;
                 }
             }
-
-
             SaveClientDataToFile(ClientsFileName, vClient);
             vClient = LoadClientsDataFromFile(ClientsFileName);
 
             cout << "\n\nClient Updated Succefully . \n";
             return true;
         }
-
     }
     else
     {
@@ -800,8 +749,6 @@ void ShowUpdateClientScreen(vector<stClient>&vClient)
     string AccountNumber = ReadClientAccountNumber();
 
     UpdateClientByAccountNumber(AccountNumber, vClient);
-
-
 }
 
 bool DepositByAccountNumber(string AccountNumber, vector<stClient>& vClient)
@@ -848,7 +795,6 @@ bool DepositByAccountNumber(string AccountNumber, vector<stClient>& vClient)
      
         return false;
     }
-
     return false;
 }
 
@@ -858,13 +804,9 @@ void ShowDepositScreen(vector<stClient>&vClient)
     cout << "\n\t\t\t\t Deposit Screen\n\n";
     cout << "==============================================================================\n";
 
-
     string AccountNumber = ReadClientAccountNumber();
-
    
    DepositByAccountNumber(AccountNumber, vClient);
-
-
 }
 
 bool WithdrawByAccountNumber(string AccountNumber, vector<stClient>& vClient)
@@ -884,7 +826,6 @@ bool WithdrawByAccountNumber(string AccountNumber, vector<stClient>& vClient)
             printf("\nAmount Exceeds the balance, you can withdraw up to : %.f", Client.AccountBalance);
             cout << "\nPlease enter another amount ? ";
             cin >> Amount;
-
         }
 
             cout << "\n\nAre you sure you want to perform this transaction ? ";
@@ -911,14 +852,12 @@ bool WithdrawByAccountNumber(string AccountNumber, vector<stClient>& vClient)
             }
             else
       return false;
-    
     }
     else
     {
         cout << "\nClient with Account Number (" << AccountNumber << ") is Not Found ! ";
         return false;
     }
-
     return false;
 }
 
@@ -931,7 +870,6 @@ void ShowWithdrawScreen(vector<stClient>& vClient)
     string AccountNumber = ReadClientAccountNumber();
 
     WithdrawByAccountNumber(AccountNumber, vClient);
-
 }
 
 void PrintBalanceRecord(stClient Client)
@@ -978,15 +916,13 @@ void ShowTotalBalances(vector<stClient>& vClient)
     cout << "--------------------------------------------------------------\n";
 
     cout << "\n";
-
 }
 
 void PrintUsersRecord(stUser User)
 {
     cout << "| " << setw(25) << left << User.Username;
     cout << "| " << setw(25) << left << User.Password;
-    cout << "| " << setw(40) << left << User.Permissions;
-   
+    cout << "| " << setw(40) << left << User.Permissions; 
 }
 
 void ShowAllUsersScreen()
@@ -1009,11 +945,9 @@ void ShowAllUsersScreen()
         PrintUsersRecord(User);
         cout << endl;
     }
-
     cout << "---------------------------------------------------------";
     cout << "------------------------------------------";
     cout << "\n";
-
 }
 
 stUser ReadNewUser()
@@ -1039,7 +973,6 @@ stUser ReadNewUser()
     User.Permissions = ReadPermissionToSet();
 
     return User;
-
 }
 
 void AddNewUser()
@@ -1047,7 +980,6 @@ void AddNewUser()
     stUser User = ReadNewUser();
     AddClientToFile(UsersFileName, ConvertUserRecordToLine(User));
     LoadUserDataFromFile(UsersFileName);
-
 }
 
 void ShowAddNewUsersScreen(vector<stUser>& vUser)
@@ -1057,14 +989,10 @@ void ShowAddNewUsersScreen(vector<stUser>& vUser)
     do
     {
         system("cls");
-
         AddNewUser();
-
         cout << "\nUser Added Successfully !\nDo you want to add more Users? Y/N ? ";
         cin >> AddMore;
     } while (toupper(AddMore) == 'Y');
-
-
 }
 
 void PrintUserCard(stUser& User)
@@ -1072,19 +1000,16 @@ void PrintUserCard(stUser& User)
     cout << "\n==============================================================\n";
     cout << "\n\tThe following are the user details : \n";
     cout << "\n==============================================================\n";
-
     cout << "# Username   : " << User.Username;
     cout << "\n--------------------------------------------------------------\n";
     cout << "# Password   : " << User.Password;
     cout << "\n--------------------------------------------------------------\n";
     cout << "# Permissions: " << User.Permissions;
     cout << "\n--------------------------------------------------------------\n";
-
 }
 
 bool DeleteUserByUsername(string Username, vector<stUser>& vUser)
 {
-
     if (Username == "Admin")
     {
         cout << "\n\nYou cannot Delete This User. ";
@@ -1190,8 +1115,6 @@ void ShowDeleteUsersScreen()
 
     string Username = ReadUsername();
     DeleteUserByUsername(Username, vUser);
-
-
 }
 
 void ShowUpdateUsersScreen()
@@ -1204,13 +1127,10 @@ void ShowUpdateUsersScreen()
 
     string Username = ReadUsername();
     UpdateUserByUsername(Username, vUser);
-    
-
 }
 
 void ShowAddNewClientScreen()
 {
-
     cout << "\n==============================================================\n";
     cout << "\t\tAdd New Clients Screen";
     cout << "\n==============================================================\n";
@@ -1220,7 +1140,6 @@ void ShowAddNewClientScreen()
 
 void ShowFindClientScreen()
 {
-
     cout << "\n==============================================================\n";
     cout << "\t\tFind Client Screen";
     cout << "\n==============================================================\n";
@@ -1236,12 +1155,10 @@ void ShowFindClientScreen()
     }
     else
         cout << "\nClient with Account Number [" << AccountNumber << "] is not found!";
-
 }
 
 void ShowFindUserScreen()
 {
-    
     cout << "\n==============================================================\n";
     cout << "\t\tFind User Screen";
     cout << "\n==============================================================\n";
@@ -1253,11 +1170,9 @@ void ShowFindUserScreen()
     if (FindUserDataByUsername(Username, vUsers, User))
     {
         PrintUserCard(User);
-
     }
     else
         cout << "\nUser with Username [" << Username << "] is not found!";
-   
 }
 
 bool CheckAccessPermission(enMainMenuePermissions Permission)
@@ -1280,7 +1195,6 @@ void PerformManageUsersMenue(vector<stClient>& vClient,vector<stUser>& vUser)
 
     switch (Choose)
     {
-
     case enManageUsersMenue::enListUsers:
         system("cls");
         ShowAllUsersScreen();
@@ -1322,9 +1236,7 @@ void PerformManageUsersMenue(vector<stClient>& vClient,vector<stUser>& vUser)
         cout << "\nSorry, this choice does not exist.\n";
         PerformManageUsersMenue(vClient,vUser);
     }
-
     }
-
 }
 
 void ShowManageUsersScreen(vector<stClient>& vClient, vector<stUser>& vUser)
@@ -1349,7 +1261,6 @@ bool LoadUserInfo(string Username, string Password)
         return true;
     else
         return false;
-
 }
 
 void Login()
@@ -1379,7 +1290,6 @@ void Login()
 
     system("cls");
         ShowMainMenueScreen();
-
 }
 
 void ShowTransactionsMenueScreen(vector<stClient>& vClient, vector<stUser>& vUser)
@@ -1394,7 +1304,6 @@ void ShowTransactionsMenueScreen(vector<stClient>& vClient, vector<stUser>& vUse
     cout << "================================================================\n\n";
 
     PerformTransactionsMenueOption(vClient,vUser);
-
 }
 
 void PerformMainMenueOption(vector<stClient>& vClient, vector<stUser>& vUser)
@@ -1420,7 +1329,6 @@ void PerformMainMenueOption(vector<stClient>& vClient, vector<stUser>& vUser)
             ShowAccessDeniedMessage();
         break;
         
-    
     case enMainMenueList::enAddClient:
         system("cls");
         if (CheckAccessPermission(enMainMenuePermissions::pAddNewClient))
@@ -1502,9 +1410,7 @@ void PerformMainMenueOption(vector<stClient>& vClient, vector<stUser>& vUser)
         cout << "\nSorry, this choice does not exist.\n";
         PerformMainMenueOption(vClient,vUser);
     }
-
     }
-
 }
 
 void ShowMainMenueScreen()
@@ -1526,7 +1432,6 @@ void ShowMainMenueScreen()
     cout << "================================================================\n\n";
 
     PerformMainMenueOption(vClient,vUser);
-
 }
 
 void PerformTransactionsMenueOption(vector<stClient>& vClient, vector<stUser>& vUser)
@@ -1538,7 +1443,6 @@ void PerformTransactionsMenueOption(vector<stClient>& vClient, vector<stUser>& v
 
     switch (Choose)
     {
-
     case enTransactionsMenue::enDeposit:
         system("cls");
         ShowDepositScreen(vClient);
@@ -1567,38 +1471,31 @@ void PerformTransactionsMenueOption(vector<stClient>& vClient, vector<stUser>& v
         cout << "\nSorry, this choice does not exist.\n";
         PerformTransactionsMenueOption(vClient,vUser);
     }
-
     }
 }
 
 void GoBackToManageUsersMenue(vector<stClient>&vClient,vector<stUser>& vUser)
 {
-
     cout << "\n\nPress any Key go back to Users menue ...";
     system("pause>0");
     system("cls");
     ShowManageUsersScreen(vClient,vUser);
-
 }
 
 void GoBackToTransactionsMenue(vector<stClient>& vClient, vector<stUser>& vUser)
 {
-
     cout << "\n\nPress any Key go back to transactions menue ...";
     system("pause>0");
     system("cls");
     ShowTransactionsMenueScreen(vClient,vUser);
-
 }
 
 void GoBackToMainMenue()
 {
-
     cout << "\n\nPress any Key go back to main menue ...";
     system("pause>0");
     system("cls");
     ShowMainMenueScreen();
-
 }
 
 
@@ -1608,3 +1505,4 @@ int main()
 
     system("pause>0");
 }
+
